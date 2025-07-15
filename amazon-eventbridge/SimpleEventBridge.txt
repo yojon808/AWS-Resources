@@ -1,0 +1,35 @@
+This is a simple Eventbridge Lab.  
+We are going to create an email notification when an EC2 instance is terminated. 
+
+1. Create a Standard SNS topic.
+    a) Then create a Subscription with the protocol set to Email. 
+    b) Specify email.
+    c) Check email and subscribe.
+
+2. Next, go to Cloudtrail. 
+    a) Create Trail. 
+        > By default it creates a "Managment-Event" 
+        > Accept default and create Trail.
+
+3. Go to EC2 and launch instance.  
+    a) Any instance, no key pair, default security group. 
+
+4. Next, go to EventBridge and create Rule.
+    a) Name the Rule, Default Event Bus, Rule with Event Pattern.
+    b) Event source: "AWS events or EventBridge partner events"
+    c) Scroll down to Event Pattern.  Use "AWS Services".
+    d) Specify "EC2" as AWS Event. 
+    e) Specify "EC2 Instance-State-Change Notification" as Event Type.
+    f) Choose "Any State" or if you please specify state. 
+    g) In this case specify "Any Instance". Then "Next".
+    h) Target type: "AWS Service", Target: "SNS Topic", Topic: "MyEmail". Then Next.
+    i) After, accept all defaults and Create Role. 
+
+5. Test if this was succesful.  Terminate the instance and you should recieve an email about the instance change of state. 
+
+Note:
+    > Take this to the next level.
+    > Trigger a Lambda event and put this info in a DynamoDB table.
+    > or
+    > Use this event to trigger an action. 
+
